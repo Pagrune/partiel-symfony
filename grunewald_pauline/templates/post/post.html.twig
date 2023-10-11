@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}    
+    {% if app.user is defined and app.user is not null %}
+    <img class="card-img-top" src="{{ vich_uploader_asset(post) }}" alt="{{ post.content }}">
+    <p>{{ post.content | raw }}</p>
+    <p>{{ post.createdAt|date('Y-m-d H:i:s') }}</p>
+
+    <button><a href="{{ path('like_post', {'id': post.id, 'liked': 'like'}) }}">Like</a></button>
+    <button><a href="{{ path('like_post', {'id': post.id, 'liked': 'dislike'}) }}">DisLike </a></button>
+
+    <h2>Commentaires</h2>
+    {% for comment in post.comments %}
+        <p>{{ comment.content }}</p>
+        <p>{{ comment.createdAt|date('Y-m-d H:i:s') }}</p>
+    {% endfor %}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn">Commenter</button>
+        {{ form_end(form) }}
+    {% else %}
+        <a href="{{ path('app_login') }}">Connectez-vous pour voir le contenu</a>
+    {% endif %}
+
+        
+{% endblock %}
